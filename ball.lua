@@ -5,8 +5,8 @@ function Ball:new(x, y, radius, direction, speed)
     self.y = y
     self.radius = radius
     self.direction = direction
-    self.speed = speed or 100
-    self.inc = speed * 0.05
+    self.speed = speed or 101
+    self.inc = speed * 1.05
 end
 
 function Ball:draw()
@@ -20,16 +20,22 @@ function Ball:move(dt)
 end
 
 function Ball:redirection()
-    local left_border = 0
+    local top = 1
+    local left_border = 1
     local right_border = love.graphics.getWidth()
 
     if self.x - self.radius < left_border then
         self.x = left_border + self.radius
-        self.direction = -self.direction
+        self.direction = math.pi - self.direction
     end
 
     if self.x + self.radius > right_border then
         self.x = right_border - self.radius
+        self.direction = math.pi - self.direction
+    end
+
+    if self.y - self.radius < top then
+        self.y = top + self.radius
         self.direction = -self.direction
     end
 end
