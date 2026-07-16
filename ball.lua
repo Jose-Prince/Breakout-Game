@@ -6,7 +6,6 @@ function Ball:new(x, y, radius, direction, speed)
     self.radius = radius
     self.direction = direction
     self.speed = speed or 101
-    self.inc = speed * 1.05
 end
 
 function Ball:draw()
@@ -41,14 +40,14 @@ function Ball:redirection()
 end
 
 function Ball:bounceOff(object)
-    local object_center = object.y + object.width / 2
-    local offset = (self.y - object_center) / (object.width / 2)
+    local object_center = object.x + object.width / 2
+    local offset = (self.x - object_center) / (object.width / 2)
     offset = math.max(-1, math.min(1, offset))
 
     local MAX_BOUNCE_ANGLE = math.rad(60)
 
     self.direction = -math.pi/2 + offset * MAX_BOUNCE_ANGLE
 
-    self.y = object.y - self.radius
-    self.speed = self.speed + self.inc
+    self.y = object.y - self.radius - 1
+    self.speed = self.speed * 1.02 
 end
