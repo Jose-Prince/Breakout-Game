@@ -23,4 +23,25 @@ end
 function love.update(dt)
     player:move(dt)
     ball:move(dt)
+
+    if checkCollision(player, ball) and math.sin(ball.direction) > 0 then
+        ball:bounceOff(player)
+    end
+end
+
+function checkCollision(object, ball)
+    local object_left = object.x
+    local object_right = object.x + object.width
+    local object_top = object.y
+    local object_bottom = object.y + object.height
+
+    local ball_left = ball.x - ball.radius
+    local ball_right = ball.x + ball.radius
+    local ball_top = ball.y - ball.radius
+    local ball_bottom = ball.y + ball.radius
+
+    return object_right > ball_left
+        and object_left < ball_right
+        and object_bottom > ball_top
+        and object_top < ball_bottom
 end

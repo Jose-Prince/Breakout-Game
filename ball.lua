@@ -39,3 +39,16 @@ function Ball:redirection()
         self.direction = -self.direction
     end
 end
+
+function Ball:bounceOff(object)
+    local object_center = object.y + object.width / 2
+    local offset = (self.y - object_center) / (object.width / 2)
+    offset = math.max(-1, math.min(1, offset))
+
+    local MAX_BOUNCE_ANGLE = math.rad(60)
+
+    self.direction = -math.pi/2 + offset * MAX_BOUNCE_ANGLE
+
+    self.y = object.y - self.radius
+    self.speed = self.speed + self.inc
+end
