@@ -20,6 +20,7 @@ end
 
 function Ball:redirection()
     local top = 1
+    local bottom = love.graphics.getHeight()
     local left_border = 1
     local right_border = love.graphics.getWidth()
 
@@ -36,6 +37,11 @@ function Ball:redirection()
     if self.y - self.radius < top then
         self.y = top + self.radius
         self.direction = -self.direction
+    end
+
+    if self.y + self.radius > bottom then
+        print("GAME OVER")
+        love.event.quit()
     end
 end
 
