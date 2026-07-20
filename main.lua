@@ -17,8 +17,8 @@ function love.load()
     player = Player(screen_width/2, screen_height - screen_height/12, speed*2)
     ball = Ball(screen_width/2, 3*screen_height/4, screen_height/64, 270, speed)
     -- Cycle for creating the blocks of the game
-    local rows = 1
-    local cols = 1
+    local rows = 10
+    local cols = 5
 
     local padding = 8
     local margin = 20
@@ -45,7 +45,12 @@ function love.draw()
             block:draw()
         end
     else
-        love.graphics.print("YOU WIN!", love.graphics.getWidth()/2, love.graphics.getHeight()/2)
+        local w = love.graphics.getWidth()
+        local h = love.graphics.getHeight()
+
+        love.graphics.printf("YOU WIN!", 0, h/2 - 20, w, "center")
+        love.graphics.printf("Press SPACE to play again", 0, h/2 + 20, w, "center")
+
     end
 end
 
@@ -73,6 +78,13 @@ function love.update(dt)
 
     if checkCollision(player, ball) and math.sin(ball.direction) > 0 then
         ball:bounceOff(player)
+    end
+end
+
+function love.keypressed(key)
+    if game_end and key == "space" then
+        love.load()
+        game_end = false
     end
 end
 
