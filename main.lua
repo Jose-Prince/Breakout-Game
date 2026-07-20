@@ -48,12 +48,15 @@ function love.update(dt)
     player:move(dt)
     ball:move(dt)
     
-    for i, block in ipairs(blocks) do
-        if checkCollision(block, ball) and math.sin(ball.direction) > 0 then
+    for i = #blocks, 1, -1 do
+        local block = blocks[i]
+        if checkCollision(block, ball) then
             ball:bounceOff(block)
             block:destroy()
             table.remove(blocks, i)
+            break
         end
+
     end
 
     if checkCollision(player, ball) and math.sin(ball.direction) > 0 then
