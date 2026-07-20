@@ -74,5 +74,5 @@ function Ball:bounceOff(object)
         self.x = object.x + object.width + self.radius
     end
 
-    self.speed = self.speed * 1.02
+    self.speed = self.speed * 1.01
 end

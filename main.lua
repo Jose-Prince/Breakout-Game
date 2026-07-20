@@ -6,6 +6,7 @@ require "block"
 local player
 local ball
 local blocks = {}
+local game_end = false
 
 function love.load()
     -- Screen dimensions
@@ -13,11 +14,11 @@ function love.load()
     local screen_height = love.graphics.getHeight()
 
     local speed = 5 * screen_width / 8
-    player = Player(screen_width/2, screen_height - screen_height/12, speed)
+    player = Player(screen_width/2, screen_height - screen_height/12, speed*2)
     ball = Ball(screen_width/2, 3*screen_height/4, screen_height/64, 270, speed)
     -- Cycle for creating the blocks of the game
-    local rows = 5
-    local cols = 10
+    local rows = 1
+    local cols = 1
 
     local padding = 8
     local margin = 20
@@ -37,16 +38,22 @@ function love.load()
 end
 
 function love.draw()
-    player:draw()
-    ball:draw()
-    for _, block in ipairs(blocks) do
-        block:draw()
+    if game_end ~= true then
+        player:draw()
+        ball:draw()
+        for _, block in ipairs(blocks) do
+            block:draw()
+        end
+    else
+        love.graphics.print("YOU WIN!", love.graphics.getWidth()/2, love.graphics.getHeight()/2)
     end
 end
 
 function love.update(dt)
-    player:move(dt)
-    ball:move(dt)
+    if game_end ~= true then
+        player:move(dt)
+        ball:move(dt)
+    end
     
     for i = #blocks, 1, -1 do
         local block = blocks[i]
@@ -54,6 +61,11 @@ function love.update(dt)
             ball:bounceOff(block)
             block:destroy()
             table.remove(blocks, i)
+
+            if #blocks == 0 then
+                game_end = true
+            end
+
             break
         end
 
