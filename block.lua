@@ -10,3 +10,9 @@ end
 function Block:draw()
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 end
+
+function Block:destroy()
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.setColor(1, 1, 1)
+end
